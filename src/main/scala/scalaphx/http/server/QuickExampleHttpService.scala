@@ -25,7 +25,7 @@ object QuickExampleHttpService extends App {
   // use the execution context from the actor system above
   implicit val executionContext = system.dispatcher
   // define a simple route: GET /hello
-  val route =
+  def route =
     path("hello") {
       get {
         complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "<h1>Hello ScalaPHX!</h1>"))
