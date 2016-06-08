@@ -2,13 +2,11 @@ package scalaphx.streams
 
 import java.nio.file.Paths
 
-import akka.{Done, NotUsed}
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, IOResult, ThrottleMode}
 import akka.stream.scaladsl.{FileIO, Source}
+import akka.stream.{ActorMaterializer, ThrottleMode}
 import akka.util.ByteString
 
-import scala.concurrent.Future
 import scala.concurrent.duration._
 
 /**
