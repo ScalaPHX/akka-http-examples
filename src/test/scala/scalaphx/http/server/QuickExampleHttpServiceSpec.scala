@@ -1,6 +1,6 @@
 package scalaphx.http.server
 
-import akka.http.scaladsl.model.{ContentTypes, MediaTypes, StatusCodes}
+import akka.http.scaladsl.model.{ContentTypes, StatusCodes}
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.testkit.ScalatestRouteTest
 import org.scalatest.{Matchers, WordSpec}
