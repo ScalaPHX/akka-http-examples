@@ -43,22 +43,6 @@ object WeatherCache {
 
 }
 
-object WeatherCacheActor {
-  def props = Props[WeatherCacheActor]
-
-  object Protocol {
-    case class FindByZip(zip : String)
-    case class AddReport(report : WeatherReport)
-  }
-}
-
-class WeatherCacheActor extends Actor {
-  def receive = {
-    case FindByZip(zip) => sender() ! WeatherCache.findByZip(zip)
-    case AddReport(report) => sender() ! WeatherCache.addReport(report)
-  }
-}
-
 trait WeatherServiceRoutes extends SprayJsonSupport {
   import Protocols._
 
