@@ -19,19 +19,21 @@ import scala.io.StdIn
   *
   */
 object QuickExampleHttpService extends App {
-  // definie necessary implicits to setup the actor system & stream materializer
+  // define necessary implicits to setup the actor system & stream materializer
   implicit val system = ActorSystem("QuickExampleHttpService")
   implicit val materializer = ActorMaterializer()
   // use the execution context from the actor system above
   implicit val executionContext = system.dispatcher
   // define a simple route: GET /hello
+  // NOTE - this is a def (method) vs a val (value) because this class extends App, which extends DelayedInit, which causes issues with unit testing.
+  //        in production - you would not handle it this way, see the WeatherService example for a better structured 'real life' example.
   def route =
     path("hello") {
       get {
         complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "<h1>Hello ScalaPHX!</h1>"))
       }
     }
-  // setup the Http stream...
+  // setup the Http server...
   val bindingFuture = Http().bindAndHandle(route, "localhost", 8080)
 
   println("Server up: http://localhost:8080/\nPress return to stop...")

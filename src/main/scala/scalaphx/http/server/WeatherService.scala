@@ -1,6 +1,6 @@
 package scalaphx.http.server
 
-import akka.actor.ActorSystem
+import akka.actor.{Actor, ActorSystem, Props}
 import akka.event.Logging
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
@@ -12,6 +12,7 @@ import spray.json.DefaultJsonProtocol
 
 import scala.collection.mutable.ListBuffer
 import scala.io.StdIn
+import scalaphx.http.server.WeatherCacheActor.Protocol.{AddReport, FindByZip}
 
 /**
   * More of a real-life example of akka-http used to build a http based micro-service
@@ -40,6 +41,22 @@ object WeatherCache {
   def findByZip(zip : String) = cache.find(_.zip == zip)
   def addReport(report : WeatherReport) = cache += report
 
+}
+
+object WeatherCacheActor {
+  def props = Props[WeatherCacheActor]
+
+  object Protocol {
+    case class FindByZip(zip : String)
+    case class AddReport(report : WeatherReport)
+  }
+}
+
+class WeatherCacheActor extends Actor {
+  def receive = {
+    case FindByZip(zip) => sender() ! WeatherCache.findByZip(zip)
+    case AddReport(report) => sender() ! WeatherCache.addReport(report)
+  }
 }
 
 trait WeatherServiceRoutes extends SprayJsonSupport {
